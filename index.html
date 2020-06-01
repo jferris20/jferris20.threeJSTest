@@ -17,7 +17,7 @@
 			import { OrbitControls } from '/controls/OrbitControls.js';
 			
 			// Set up variables
-			var camera, controls, scene, renderer;
+			var camera, controls, scene, renderer, cube;
 			
 			init();
 			
@@ -68,7 +68,7 @@
 				// Create a cube
 				var geometry = new THREE.BoxGeometry();
 				var material = new THREE.MeshBasicMaterial( { color: 0xb0cccc } );
-				var cube = new THREE.Mesh( geometry, material );
+				cube = new THREE.Mesh( geometry, material );
 				//cube.position.set(0, -1, 0);
 				scene.add( cube );
 
