@@ -42,7 +42,7 @@
 				camera.lookAt( 0, 1, 0 );
 				
 				// Controls
-				var controls = new OrbitControls( camera, renderer.domElement );
+				controls = new OrbitControls( camera, renderer.domElement );
 				controls.screenSpacePanning = true;
 				controls.minDistance = 5;
 				controls.maxDistance = 40;
@@ -81,7 +81,7 @@
 				scene.add( mesh );
 				
 				//mesh.receiveShadow = true;
-				scene.add( mesh );
+				//scene.add( mesh );
 				
 			}
 
