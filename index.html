@@ -8,61 +8,84 @@
 			canvas { display: block; }
 		</style>
 	</head>
+	
 	<body>
-		<script src="js/three.js"></script>
-		<script>
-			// Our Javascript will go here.
+		<script type="module">
 			
-			// Create the scene
-			var scene = new THREE.Scene();
-			scene.background = new THREE.Color( 0xa0a0a0 );
-			scene.fog = new THREE.Fog( 0xa0a0a0, 10, 50 );
+			// Import stuff
+			import * as THREE from '/js/three.module.js';
+			import { OrbitControls } from '/controls/OrbitControls.js';
 			
+			// Set up variables
+			var camera, controls, scene, renderer;
 			
-			// Create a camera
-			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1000 );
-			camera.position.set( 1, 2, - 3 );
-			camera.lookAt( 0, 1, 0 );
-
-			var renderer = new THREE.WebGLRenderer();
-			renderer.setSize( window.innerWidth, window.innerHeight );
-			document.body.appendChild( renderer.domElement );
+			init();
 			
-			// Add lights
-			var hemiLight = new THREE.HemisphereLight( 0xffffff, 0x444444 );
-			hemiLight.position.set( 0, 20, 0 );
-			scene.add( hemiLight );
+			animate();
 			
-			var dirLight = new THREE.DirectionalLight( 0xffffff );
-			dirLight.position.set( 3, 10, 10 );
-			dirLight.castShadow = true;
-			dirLight.shadow.camera.top = 2;
-			dirLight.shadow.camera.bottom = - 2;
-			dirLight.shadow.camera.left = - 2;
-			dirLight.shadow.camera.right = 2;
-			dirLight.shadow.camera.near = 0.1;
-			dirLight.shadow.camera.far = 40;
-			scene.add( dirLight );
-			
-			// Create a cube
-			var geometry = new THREE.BoxGeometry();
-			var material = new THREE.MeshBasicMaterial( { color: 0xb0cccc } );
-			var cube = new THREE.Mesh( geometry, material );
-			//cube.position.set(0, -1, 0);
-			scene.add( cube );
-
-
-			
-			// Add ground
-			var mesh = new THREE.Mesh( new THREE.PlaneBufferGeometry( 100, 100 ), new THREE.MeshPhongMaterial( { color: 0x999999, depthWrite: false } ) );
-			mesh.rotation.x = - Math.PI / 2;
-			mesh.receiveShadow = true;
-			scene.add( mesh );
-			
-			//mesh.receiveShadow = true;
-			scene.add( mesh );
+			function init() {
 				
-			// Controls
+				// Create the scene
+				scene = new THREE.Scene();
+				scene.background = new THREE.Color( 0xa0a0a0 );
+				scene.fog = new THREE.Fog( 0xa0a0a0, 10, 50 );
+			
+				// Create the renderer
+				renderer = new THREE.WebGLRenderer();
+				// Not sure what this does renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				document.body.appendChild( renderer.domElement );
+			
+				// Create a camera
+				camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1000 );
+				camera.position.set( 1, 2, - 3 );
+				camera.lookAt( 0, 1, 0 );
+				
+				// Controls
+				var controls = new OrbitControls( camera, renderer.domElement );
+				controls.screenSpacePanning = true;
+				controls.minDistance = 5;
+				controls.maxDistance = 40;
+				controls.target.set( 0, 2, 0 );
+				controls.update();
+			
+				// Add lights
+				var hemiLight = new THREE.HemisphereLight( 0xffffff, 0x444444 );
+				hemiLight.position.set( 0, 20, 0 );
+				scene.add( hemiLight );
+				
+				var dirLight = new THREE.DirectionalLight( 0xffffff );
+				dirLight.position.set( 3, 10, 10 );
+				dirLight.castShadow = true;
+				dirLight.shadow.camera.top = 2;
+				dirLight.shadow.camera.bottom = - 2;
+				dirLight.shadow.camera.left = - 2;
+				dirLight.shadow.camera.right = 2;
+				dirLight.shadow.camera.near = 0.1;
+				dirLight.shadow.camera.far = 40;
+				scene.add( dirLight );
+			
+				// Create a cube
+				var geometry = new THREE.BoxGeometry();
+				var material = new THREE.MeshBasicMaterial( { color: 0xb0cccc } );
+				var cube = new THREE.Mesh( geometry, material );
+				//cube.position.set(0, -1, 0);
+				scene.add( cube );
+
+
+				
+				// Add ground
+				var mesh = new THREE.Mesh( new THREE.PlaneBufferGeometry( 100, 100 ), new THREE.MeshPhongMaterial( { color: 0x999999, depthWrite: false } ) );
+				mesh.rotation.x = - Math.PI / 2;
+				mesh.receiveShadow = true;
+				scene.add( mesh );
+				
+				//mesh.receiveShadow = true;
+				scene.add( mesh );
+				
+			}
+
+			// function onWindowResize() {}			
 			
 			
 			// Animation loop
@@ -73,7 +96,6 @@
 				cube.rotation.y += 0.01;
 				renderer.render( scene, camera );
 			}
-			animate();
 			
 						
 		</script>
