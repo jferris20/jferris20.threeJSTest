@@ -23,8 +23,7 @@
 			
 			// Set up variables
 			var camera, controls, scene, renderer, cube, container;
-			
-			var guiControls;
+			var guiControls, datGUI;
 			
 			init();
 			
@@ -36,11 +35,15 @@
 				container = document.getElementById( 'container' );
 				
 				guiControls = new function() {
-					this.rotationX = 0.01;
+					this.rotationX = 0.00;
+					this.rotationY = 0.00;
+					this.rotationZ = 0.00;
 				}
 				
-				var datGUI = new GUI();
-				datGUI.add(guiControls, 'rotationX', 0, 1);
+				datGUI = new GUI();
+				datGUI.add(guiControls, 'rotationX', 0, 360);
+				datGUI.add(guiControls, 'rotationY', 0, 360);
+				datGUI.add(guiControls, 'rotationZ', 0, 360);
 				
 				
 				// Create the scene
@@ -106,6 +109,10 @@
 			
 			// Animation loop
 			function animate() {
+				cube.rotation.x = guiControls.rotationX;
+				cube.rotation.y = guiControls.rotationY;
+				cube.rotation.z = guiControls.rotationZ;
+			
 				requestAnimationFrame( animate );
 				
 				renderer.render( scene, camera );
