@@ -39,7 +39,7 @@
 					this.rotationX = 0.01;
 				}
 				
-				var datGUI = new dat.GUI();
+				var datGUI = new GUI();
 				datGUI.add(guiControls, 'rotationX', 0, 1);
 				
 				
@@ -61,7 +61,8 @@
 				
 				// Controls
 				controls = new OrbitControls( camera, renderer.domElement );
-				controls.screenSpacePanning = true;
+				//controls.screenSpacePanning = true;
+				controls.enablePan = false;
 				controls.minDistance = 3;
 				controls.maxDistance = 30;
 				controls.target.set( 0, 2, 0 );
