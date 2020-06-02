@@ -109,9 +109,9 @@
 			
 			// Animation loop
 			function animate() {
-				cube.rotation.x = guiControls.rotationX;
-				cube.rotation.y = guiControls.rotationY;
-				cube.rotation.z = guiControls.rotationZ;
+				cube.rotation.x = guiControls.rotationX * (MATH.PI / 180);
+				cube.rotation.y = guiControls.rotationY * (MATH.PI / 180);
+				cube.rotation.z = guiControls.rotationZ * (MATH.PI / 180);
 			
 				requestAnimationFrame( animate );
 				
