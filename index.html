@@ -83,8 +83,7 @@
 				hemiLight.position.set( 0, 50, 0 );
 				scene.add( hemiLight );
 
-				hemiLightHelper = new THREE.HemisphereLightHelper( hemiLight, 10 ); // Remove helper later
-				scene.add( hemiLightHelper );
+
 				
 				dirLight = new THREE.DirectionalLight( 0xffffff, 1 );
 				dirLight.color.setHSL( 0.1, 1, 0.95 );
@@ -107,8 +106,6 @@
 				dirLight.shadow.camera.far = 3500;
 				dirLight.shadow.bias = - 0.0001;
 
-				dirLightHeper = new THREE.DirectionalLightHelper( dirLight, 10 );
-				scene.add( dirLightHeper );
 			
 				// Create a cube
 				var geometry = new THREE.BoxGeometry();
