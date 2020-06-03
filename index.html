@@ -69,6 +69,8 @@
 				controls.minDistance = 3;
 				controls.maxDistance = 30;
 				controls.target.set( 0, 2, 0 );
+				controls.maxPolarAngle = Math.PI * 0.495; //Hopefully restricts vertical camera rotations
+				
 				controls.update();
 			
 				// Add lights
@@ -99,12 +101,22 @@
 				// Add ground
 				var mesh = new THREE.Mesh( new THREE.PlaneBufferGeometry( 100, 100 ), new THREE.MeshPhongMaterial( { color: 0x999999, depthWrite: false } ) );
 				mesh.rotation.x = - Math.PI / 2;
-				//mesh.receiveShadow = true;
+				mesh.receiveShadow = true;
 				scene.add( mesh );
 
 			}
 						
 			// function onWindowResize() {}			
+			function onWindowResize() {
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				//render();
+
+			}
 			
 			
 			// Animation loop
