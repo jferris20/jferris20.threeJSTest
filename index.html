@@ -10,7 +10,9 @@
 	</head>
 	
 	<body>
-		
+		<div id="info">
+			<button id="exportBinary">Export binary</button>
+		</div>
 		<div id="container"></div>
 	
 		<script type="module">
@@ -20,12 +22,14 @@
 			import { OrbitControls } from '/controls/OrbitControls.js';
 			import { GUI } from '/gui/dat.gui.module.js';
 			import { GLTFLoader } from '/loaders/GLTFLoader.js';
+			import { STLExporter } from '/exporters/STLExporter.js';
+			
 			
 			// Set up variables
 			var camera, controls, scene, renderer, cube, container;
 			var guiControls, datGUI;
 			var hemiLight, dirLight;
-			
+			var exporter;
 			var model;
 			
 			init();
@@ -48,6 +52,9 @@
 				datGUI.add(guiControls, 'rotationY', 0, 360);
 				datGUI.add(guiControls, 'rotationZ', 0, 360);
 				
+				exporter = new STLExporter();
+				var buttonExportBinary = document.getElementById( 'exportBinary' );
+				buttonExportBinary.addEventListener( 'click', exportBinary );
 				
 				// Create the scene
 				scene = new THREE.Scene();
@@ -169,6 +176,12 @@
 				mesh.rotation.x = - Math.PI / 2;
 				mesh.receiveShadow = true;
 				scene.add( mesh );
+				
+				// Add a grid to the ground
+				var grid = new THREE.GridHelper( 2000, 20, 0x000000, 0x000000 );
+				grid.material.opacity = 0.2;
+				grid.material.transparent = true;
+				scene.add( grid );
 
 			}
 						
@@ -182,6 +195,31 @@
 
 				//render();
 			}*/
+			
+			function exportBinary() {
+				var result = exporter.parse( mesh, { binary: true } );
+				saveArrayBuffer( result, 'test1.stl' );
+			}
+			
+			function save( blob, filename ) {
+
+				link.href = URL.createObjectURL( blob );
+				link.download = filename;
+				link.click();
+
+			}
+
+			function saveString( text, filename ) {
+
+				save( new Blob( [ text ], { type: 'text/plain' } ), filename );
+
+			}
+
+			function saveArrayBuffer( buffer, filename ) {
+
+				save( new Blob( [ buffer ], { type: 'application/octet-stream' } ), filename );
+
+			}
 			
 			
 			// Animation loop
