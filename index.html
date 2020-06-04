@@ -110,9 +110,9 @@
 				var texture = new THREE.TextureLoader().load( 'textures/crate.gif' );
 			
 				// Create a cube
-				//var geometry = new THREE.BoxGeometry();
-				var geometry = new THREE.BoxBufferGeometry( 200, 200, 200 );
-				var material = new THREE.MeshBasicMaterial( { color: 0xb0cccc } );
+				var geometry = new THREE.BoxGeometry();
+				//var geometry = new THREE.BoxBufferGeometry( 200, 200, 200 );
+				var material = new THREE.MeshBasicMaterial( { map: texture } );
 				cube = new THREE.Mesh( geometry, material );
 				cube.position.set(0, 1, 0);
 				scene.add( cube );
