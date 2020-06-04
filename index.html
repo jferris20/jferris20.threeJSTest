@@ -133,18 +133,23 @@
 				} );
 
 				// Add Lines for references
-				var material = new THREE.LineBasicMaterial( { color: 0x0000ff } );
-				
+				// Create a function to do this
+				var material = new THREE.LineBasicMaterial( { color: 0x0000ff } ); // Blue
 				var points = [];
-				points.push( new THREE.Vector3( - 10, 0, 0 ) );
-				points.push( new THREE.Vector3( 0, 10, 0 ) );
-				points.push( new THREE.Vector3( 10, 0, 0 ) );
-
+				points.push( new THREE.Vector3( 0, 0, 0 ) );
+				points.push( new THREE.Vector3( 0, 10, 0 ) ); // Y Axis
 				var geometry = new THREE.BufferGeometry().setFromPoints( points );
-				
 				var line = new THREE.Line( geometry, material );
-				
 				scene.add( line );
+
+				var material = new THREE.LineBasicMaterial( { color: 0x00ff00 } ); // Green
+				points.pop();
+				points.push( new THREE.Vector3( 0, 0, 10 ) ); // Z Axis
+				var geometry = new THREE.BufferGeometry().setFromPoints( points );
+				var line = new THREE.Line( geometry, material );
+				scene.add( line );
+			
+
 
 
 				
