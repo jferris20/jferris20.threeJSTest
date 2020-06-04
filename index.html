@@ -62,7 +62,7 @@
 			
 				// Create a camera
 				camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1000 );
-				camera.position.set( 1, 2, - 3 );
+				camera.position.set( 3, 3, 3 );
 				camera.lookAt( 0, 1, 0 );
 				
 				// Controls
@@ -137,21 +137,21 @@
 				var material = new THREE.LineBasicMaterial( { color: 0x0000ff } ); // Blue
 				var points = [];
 				points.push( new THREE.Vector3( 0, 0, 0 ) );
-				points.push( new THREE.Vector3( 0, 5, 0 ) ); // Y Axis
+				points.push( new THREE.Vector3( 0, 3, 0 ) ); // Y Axis
 				var geometry = new THREE.BufferGeometry().setFromPoints( points );
 				var line = new THREE.Line( geometry, material );
 				scene.add( line );
 
 				material = new THREE.LineBasicMaterial( { color: 0x00ff00 } ); // Green
 				points.pop();
-				points.push( new THREE.Vector3( 0, 0, 5 ) ); // Z Axis
+				points.push( new THREE.Vector3( 0, 0, 3 ) ); // Z Axis
 				geometry = new THREE.BufferGeometry().setFromPoints( points );
 				line = new THREE.Line( geometry, material );
 				scene.add( line );
 				
 				material = new THREE.LineBasicMaterial( { color: 0xff0000 } ); // Red
 				points.pop();
-				points.push( new THREE.Vector3( 5, 0, 0 ) ); // X Axis
+				points.push( new THREE.Vector3( 3, 0, 0 ) ); // X Axis
 				geometry = new THREE.BufferGeometry().setFromPoints( points );
 				line = new THREE.Line( geometry, material );
 				scene.add( line );
