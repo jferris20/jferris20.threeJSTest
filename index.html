@@ -10,7 +10,7 @@
 		<div id="container"></div>
 		<div id="info">Simple Cloth Simulation<br/>
 			Verlet integration with relaxed constraints<br/>
-			<button type="button" id="exportBinary" onclick="exportBinary()">Export binary</button>
+			<button id="exportBinary">export binary</button>
 		</div>
 		
 	
@@ -51,7 +51,11 @@
 				datGUI.add(guiControls, 'rotationY', 0, 360);
 				datGUI.add(guiControls, 'rotationZ', 0, 360);
 				
+				// Set up exporter
 				exporter = new STLExporter();
+				var buttonExportBinary = document.getElementById( 'exportBinary' );
+				buttonExportBinary.addEventListener( 'click', exportBinary );
+				
 				
 				// Create the scene
 				scene = new THREE.Scene();
