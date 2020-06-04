@@ -10,9 +10,8 @@
 	</head>
 	
 	<body>
-		<div id="info">
-			<button id="exportBinary">Export binary</button>
-		</div>
+
+		<button id="exportBinary">Export binary</button>
 		<div id="container"></div>
 	
 		<script type="module">
@@ -178,7 +177,7 @@
 				scene.add( mesh );
 				
 				// Add a grid to the ground
-				var grid = new THREE.GridHelper( 20, 20, 0x000000, 0x000000 ); // TODO: Look up what the parameters do
+				var grid = new THREE.GridHelper( 20, 50, 0x000000, 0x000000 ); // TODO: Look up what the parameters do
 				grid.material.opacity = 0.2;
 				grid.material.transparent = true;
 				scene.add( grid );
@@ -210,12 +209,6 @@
 				link.href = URL.createObjectURL( blob );
 				link.download = filename;
 				link.click();
-
-			}
-
-			function saveString( text, filename ) {
-
-				save( new Blob( [ text ], { type: 'text/plain' } ), filename );
 
 			}
 
