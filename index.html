@@ -11,7 +11,7 @@
 	
 	<body>
 
-		<button id="exportBinary">Export binary</button>
+		<button type="button" id="exportBinary" onclick="exportBinary()">Export binary</button>
 		<div id="container"></div>
 	
 		<script type="module">
@@ -52,8 +52,6 @@
 				datGUI.add(guiControls, 'rotationZ', 0, 360);
 				
 				exporter = new STLExporter();
-				var buttonExportBinary = document.getElementById( 'exportBinary' );
-				buttonExportBinary.addEventListener( 'click', exportBinary );
 				
 				// Create the scene
 				scene = new THREE.Scene();
@@ -78,7 +76,7 @@
 				controls.minDistance = 3;
 				controls.maxDistance = 30;
 				controls.target.set( 0, 2, 0 );
-				controls.maxPolarAngle = Math.PI * 0.495; //Hopefully restricts vertical camera rotations. Needs further adjustment
+				//controls.maxPolarAngle = Math.PI * 0.495; //Hopefully restricts vertical camera rotations. Needs further adjustment
 				
 				controls.update();
 			
@@ -176,8 +174,8 @@
 				mesh.receiveShadow = true;
 				scene.add( mesh );
 				
-				// Add a grid to the ground
-				var grid = new THREE.GridHelper( 20, 50, 0x000000, 0x000000 ); // TODO: Look up what the parameters do
+				// Add a grid to the ground     GridHelper( size : number, divisions : Number, colorCenterLine : Color, colorGrid : Color )
+				var grid = new THREE.GridHelper( 100, 100);
 				grid.material.opacity = 0.2;
 				grid.material.transparent = true;
 				scene.add( grid );
