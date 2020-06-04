@@ -178,7 +178,7 @@
 				scene.add( mesh );
 				
 				// Add a grid to the ground
-				var grid = new THREE.GridHelper( 2000, 20, 0x000000, 0x000000 );
+				var grid = new THREE.GridHelper( 20, 20, 0x000000, 0x000000 ); // TODO: Look up what the parameters do
 				grid.material.opacity = 0.2;
 				grid.material.transparent = true;
 				scene.add( grid );
@@ -200,6 +200,10 @@
 				var result = exporter.parse( mesh, { binary: true } );
 				saveArrayBuffer( result, 'test1.stl' );
 			}
+			
+			var link = document.createElement( 'a' );
+			link.style.display = 'none';
+			document.body.appendChild( link );
 			
 			function save( blob, filename ) {
 
