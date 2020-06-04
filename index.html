@@ -81,7 +81,7 @@
 				//hemiLight.color.setHSL( 0.6, 1, 0.6 );
 				//hemiLight.groundColor.setHSL( 0.095, 1, 0.75 );
 				hemiLight.position.set( 0, 50, 0 );
-				scene.add( hemiLight );
+				scene.add( hemiLight ); 
 
 
 				
@@ -132,7 +132,19 @@
 
 				} );
 
+				// Add Lines for references
+				var material = new THREE.LineBasicMaterial( { color: 0x0000ff } );
+				
+				var points = [];
+				points.push( new THREE.Vector3( - 10, 0, 0 ) );
+				points.push( new THREE.Vector3( 0, 10, 0 ) );
+				points.push( new THREE.Vector3( 10, 0, 0 ) );
 
+				var geometry = new THREE.BufferGeometry().setFromPoints( points );
+				
+				var line = new THREE.Line( geometry, material );
+				
+				scene.add( line );
 
 
 				
