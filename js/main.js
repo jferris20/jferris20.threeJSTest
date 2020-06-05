@@ -1,5 +1,5 @@
 // Import stuff
-import * as THREE from '/three.module.js';
+import * as THREE from '../js/three.module.js';
 import { OrbitControls } from '../controls/OrbitControls.js';
 import { GUI } from '../gui/dat.gui.module.js';
 import { GLTFLoader } from '../loaders/GLTFLoader.js';
