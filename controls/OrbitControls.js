@@ -192,11 +192,9 @@ var OrbitControls = function ( object, domElement ) {
 			if ( scope.enableDamping === true ) {
 				sphericalDelta.theta *= ( 1 - scope.dampingFactor );
 				sphericalDelta.phi *= ( 1 - scope.dampingFactor );
-
 				panOffset.multiplyScalar( 1 - scope.dampingFactor );
 			} else {
 				sphericalDelta.set( 0, 0, 0 );
-
 				panOffset.set( 0, 0, 0 );
 			}
 
@@ -221,9 +219,7 @@ var OrbitControls = function ( object, domElement ) {
 			}
 
 			return false;
-
 		};
-
 	}();
 
 	this.dispose = function () {
@@ -290,11 +286,7 @@ var OrbitControls = function ( object, domElement ) {
 	var dollyEnd = new Vector2();
 	var dollyDelta = new Vector2();
 
-	function getAutoRotationAngle() {
-
-		return 2 * Math.PI / 60 / 60 * scope.autoRotateSpeed;
-
-	}
+	function getAutoRotationAngle() { return 2 * Math.PI / 60 / 60 * scope.autoRotateSpeed; }
 
 	function getZoomScale() { return Math.pow( 0.95, scope.zoomSpeed );}
 
