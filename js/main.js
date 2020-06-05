@@ -1,9 +1,9 @@
 // Import stuff
 import * as THREE from '/three.module.js';
-import { OrbitControls } from './controls/OrbitControls.js';
-import { GUI } from './gui/dat.gui.module.js';
-import { GLTFLoader } from './loaders/GLTFLoader.js';
-import { STLExporter } from './exporters/STLExporter.js';
+import { OrbitControls } from '../controls/OrbitControls.js';
+import { GUI } from '../gui/dat.gui.module.js';
+import { GLTFLoader } from '../loaders/GLTFLoader.js';
+import { STLExporter } from '../exporters/STLExporter.js';
 
 
 // Set up variables
