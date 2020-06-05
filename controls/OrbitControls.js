@@ -7,7 +7,7 @@
  * @author ScieCode / http://github.com/sciecode
  */
 
-/*import {
+import {
 	EventDispatcher,
 	MOUSE,
 	Quaternion,
@@ -15,7 +15,7 @@
 	TOUCH,
 	Vector2,
 	Vector3
-} from "../js/three.module.js"; Testing if this is needed */
+} from "../js/three.module.js";
 
 // This set of controls performs orbiting, dollying (zooming), and panning.
 // Unlike TrackballControls, it maintains the "up" direction object.up (+Y by default).
@@ -107,15 +107,12 @@ var OrbitControls = function ( object, domElement ) {
 	this.getAzimuthalAngle = function () {return spherical.theta;};
 
 	this.saveState = function () {
-
 		scope.target0.copy( scope.target );
 		scope.position0.copy( scope.object.position );
 		scope.zoom0 = scope.object.zoom;
-
 	};
 
 	this.reset = function () {
-
 		scope.target.copy( scope.target0 );
 		scope.object.position.copy( scope.position0 );
 		scope.object.zoom = scope.zoom0;
@@ -126,7 +123,6 @@ var OrbitControls = function ( object, domElement ) {
 		scope.update();
 
 		state = STATE.NONE;
-
 	};
 
 	// this method is exposed, but perhaps it would be better if we can make it private...
@@ -153,22 +149,15 @@ var OrbitControls = function ( object, domElement ) {
 			// angle from z-axis around y-axis
 			spherical.setFromVector3( offset );
 
-			if ( scope.autoRotate && state === STATE.NONE ) {
-
+			if ( scope.autoRotate && state === STATE.NONE ) 
 				rotateLeft( getAutoRotationAngle() );
 
-			}
-
 			if ( scope.enableDamping ) {
-
 				spherical.theta += sphericalDelta.theta * scope.dampingFactor;
 				spherical.phi += sphericalDelta.phi * scope.dampingFactor;
-
 			} else {
-
 				spherical.theta += sphericalDelta.theta;
 				spherical.phi += sphericalDelta.phi;
-
 			}
 
 			// restrict theta to be between desired limits
@@ -179,7 +168,6 @@ var OrbitControls = function ( object, domElement ) {
 
 			spherical.makeSafe();
 
-
 			spherical.radius *= scale;
 
 			// restrict radius to be between desired limits
@@ -187,15 +175,10 @@ var OrbitControls = function ( object, domElement ) {
 
 			// move target to panned location
 
-			if ( scope.enableDamping === true ) {
-
+			if ( scope.enableDamping === true ) 
 				scope.target.addScaledVector( panOffset, scope.dampingFactor );
-
-			} else {
-
+			else 
 				scope.target.add( panOffset );
-
-			}
 
 			offset.setFromSpherical( spherical );
 
@@ -207,18 +190,14 @@ var OrbitControls = function ( object, domElement ) {
 			scope.object.lookAt( scope.target );
 
 			if ( scope.enableDamping === true ) {
-
 				sphericalDelta.theta *= ( 1 - scope.dampingFactor );
 				sphericalDelta.phi *= ( 1 - scope.dampingFactor );
 
 				panOffset.multiplyScalar( 1 - scope.dampingFactor );
-
 			} else {
-
 				sphericalDelta.set( 0, 0, 0 );
 
 				panOffset.set( 0, 0, 0 );
-
 			}
 
 			scale = 1;
@@ -317,23 +296,11 @@ var OrbitControls = function ( object, domElement ) {
 
 	}
 
-	function getZoomScale() {
+	function getZoomScale() { return Math.pow( 0.95, scope.zoomSpeed );}
 
-		return Math.pow( 0.95, scope.zoomSpeed );
+	function rotateLeft( angle ) { sphericalDelta.theta -= angle;}
 
-	}
-
-	function rotateLeft( angle ) {
-
-		sphericalDelta.theta -= angle;
-
-	}
-
-	function rotateUp( angle ) {
-
-		sphericalDelta.phi -= angle;
-
-	}
+	function rotateUp( angle ) { sphericalDelta.phi -= angle;}
 
 	var panLeft = function () {
 
@@ -356,15 +323,11 @@ var OrbitControls = function ( object, domElement ) {
 
 		return function panUp( distance, objectMatrix ) {
 
-			if ( scope.screenSpacePanning === true ) {
-
+			if ( scope.screenSpacePanning === true )
 				v.setFromMatrixColumn( objectMatrix, 1 );
-
-			} else {
-
+			else {
 				v.setFromMatrixColumn( objectMatrix, 0 );
 				v.crossVectors( scope.object.up, v );
-
 			}
 
 			v.multiplyScalar( distance );
@@ -409,30 +372,22 @@ var OrbitControls = function ( object, domElement ) {
 				// camera neither orthographic nor perspective
 				console.warn( 'WARNING: OrbitControls.js encountered an unknown camera type - pan disabled.' );
 				scope.enablePan = false;
-
 			}
-
 		};
 
 	}();
 
 	function dollyOut( dollyScale ) {
 
-		if ( scope.object.isPerspectiveCamera ) {
-
+		if ( scope.object.isPerspectiveCamera ) 
 			scale /= dollyScale;
-
-		} else if ( scope.object.isOrthographicCamera ) {
-
+		else if ( scope.object.isOrthographicCamera ) {
 			scope.object.zoom = Math.max( scope.minZoom, Math.min( scope.maxZoom, scope.object.zoom * dollyScale ) );
 			scope.object.updateProjectionMatrix();
 			zoomChanged = true;
-
 		} else {
-
 			console.warn( 'WARNING: OrbitControls.js encountered an unknown camera type - dolly/zoom disabled.' );
 			scope.enableZoom = false;
-
 		}
 
 	}
@@ -462,17 +417,9 @@ var OrbitControls = function ( object, domElement ) {
 	// event callbacks - update the object state
 	//
 
-	function handleMouseDownRotate( event ) {
+	function handleMouseDownRotate( event ) { rotateStart.set( event.clientX, event.clientY );}
 
-		rotateStart.set( event.clientX, event.clientY );
-
-	}
-
-	function handleMouseDownDolly( event ) {
-
-		dollyStart.set( event.clientX, event.clientY );
-
-	}
+	function handleMouseDownDolly( event ) { dollyStart.set( event.clientX, event.clientY );}
 
 	function handleMouseDownPan( event ) {
 
