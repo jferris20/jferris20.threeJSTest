@@ -7,7 +7,7 @@
  * @author ScieCode / http://github.com/sciecode
  */
 
-import {
+/*import {
 	EventDispatcher,
 	MOUSE,
 	Quaternion,
@@ -15,7 +15,7 @@ import {
 	TOUCH,
 	Vector2,
 	Vector3
-} from "../js/three.module.js";
+} from "../js/three.module.js"; Testing if this is needed */
 
 // This set of controls performs orbiting, dollying (zooming), and panning.
 // Unlike TrackballControls, it maintains the "up" direction object.up (+Y by default).
@@ -102,17 +102,9 @@ var OrbitControls = function ( object, domElement ) {
 	// public methods
 	//
 
-	this.getPolarAngle = function () {
+	this.getPolarAngle = function () { return spherical.phi;};
 
-		return spherical.phi;
-
-	};
-
-	this.getAzimuthalAngle = function () {
-
-		return spherical.theta;
-
-	};
+	this.getAzimuthalAngle = function () {return spherical.theta;};
 
 	this.saveState = function () {
 
