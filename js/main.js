@@ -14,6 +14,8 @@ var exporter;
 var model;
 var pendulum;
 
+var ground, grid;
+
 init();
 
 animate();
@@ -151,19 +153,7 @@ function init() {
 	line = new THREE.Line( geometry, material );
 	scene.add( line );
 
-	
-	// Add ground
-	var mesh = new THREE.Mesh( new THREE.PlaneBufferGeometry( 100, 100 ), new THREE.MeshPhongMaterial( { color: 0x999999, depthWrite: false } ) );
-	mesh.rotation.x = - Math.PI / 2;
-	mesh.receiveShadow = true;
-	scene.add( mesh );
-	
-	// Add a grid to the ground     GridHelper( size : number, divisions : Number, colorCenterLine : Color, colorGrid : Color )
-	var grid = new THREE.GridHelper( 100, 100);
-	grid.material.opacity = 0.2;
-	grid.material.transparent = true;
-	scene.add( grid );
-	
+	createGround();
 	
 	// Attempt to merge different meshes/geometries
 	/*var ballGeo = new THREE.SphereGeometry(10,35,35);
@@ -195,7 +185,7 @@ function exportBinary() {
 	saveArrayBuffer( result, 'test1.stl' );
 }
 
-var link = document.createElement( 'a' );
+var link = document.createElement( 'a' ); // Not 100% certain what this does
 link.style.display = 'none';
 document.body.appendChild( link );
 
@@ -219,3 +209,25 @@ function animate() {
 	
 	renderer.render( scene, camera );
 }
+
+// Adds ground and a grid
+function createGround() {
+	ground = new THREE.Mesh( new THREE.PlaneBufferGeometry( 100, 100 ), new THREE.MeshPhongMaterial( { color: 0x999999, depthWrite: false } ) );
+	ground.rotation.x = - Math.PI / 2;
+	ground.receiveShadow = true;
+	scene.add( ground );
+	
+	// Add a grid to the ground     GridHelper( size : number, divisions : Number, colorCenterLine : Color, colorGrid : Color )
+	grid = new THREE.GridHelper( 100, 100);
+	grid.material.opacity = 0.2;
+	grid.material.transparent = true;
+	scene.add( grid );
+}
+
+
+
+
+
+
+
+
