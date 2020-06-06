@@ -49,7 +49,7 @@ function init() {
 
 	// Create the renderer
 	renderer = new THREE.WebGLRenderer();
-	// Not sure what this does renderer.setPixelRatio( window.devicePixelRatio );
+	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	document.body.appendChild( renderer.domElement );
 
@@ -120,13 +120,8 @@ function init() {
 		scene.add( model );
 
 		model.traverse( function ( object ) {
-
 			if ( object.isMesh ) object.castShadow = true;
-
 		} );
-
-		animate(); // Not sure if I need this
-
 	} );
 
 	// Add Lines for references
