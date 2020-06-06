@@ -12,6 +12,7 @@ var guiControls, datGUI;
 var hemiLight, dirLight;
 var exporter;
 var model;
+var pendulum;
 
 init();
 
@@ -173,7 +174,7 @@ function init() {
 	ball.updateMatrix();
 	pendulumGeo.merge(ball.geometry, ball.matrix);
 
-	var pendulum = new THREE.Mesh(pendulumGeo, material);
+	pendulum = new THREE.Mesh(pendulumGeo, material);
 	scene.add(pendulum);
 
 }
