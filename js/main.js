@@ -112,7 +112,7 @@ function init() {
 	// Import object using GLFT loader
 	// Used example code from https://github.com/mrdoob/three.js/blob/master/examples/webgl_animation_skinning_additive_blending.html
 	var loader = new GLTFLoader();
-	loader.load( 'gltfModels/Falchion.glb', function ( gltf ) {
+	loader.load( 'gltfModels/GhostPirate.glb', function ( gltf ) {
 
 		model = gltf.scene;
 		scene.add( model );
@@ -166,7 +166,7 @@ function init() {
 	
 	
 	// Attempt to merge different meshes/geometries
-	var ballGeo = new THREE.SphereGeometry(10,35,35);
+	/*var ballGeo = new THREE.SphereGeometry(10,35,35);
 	var material = new THREE.MeshPhongMaterial({color: 0xF7FE2E}); 
 	var ball = new THREE.Mesh(ballGeo, material);
 
@@ -175,7 +175,7 @@ function init() {
 	pendulumGeo.merge(ball.geometry, ball.matrix);
 
 	pendulum = new THREE.Mesh(pendulumGeo, material);
-	scene.add(pendulum);
+	scene.add(pendulum);*/ //It worked
 
 }
 			
@@ -191,7 +191,7 @@ function init() {
 }*/
 
 function exportBinary() {
-	var result = exporter.parse( pendulum, { binary: true } );
+	var result = exporter.parse( cube, { binary: true } );
 	saveArrayBuffer( result, 'test1.stl' );
 }
 
