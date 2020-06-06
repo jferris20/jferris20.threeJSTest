@@ -162,6 +162,19 @@ function init() {
 	grid.material.opacity = 0.2;
 	grid.material.transparent = true;
 	scene.add( grid );
+	
+	
+	// Attempt to merge different meshes/geometries
+	var ballGeo = new THREE.SphereGeometry(10,35,35);
+	var material = new THREE.MeshPhongMaterial({color: 0xF7FE2E}); 
+	var ball = new THREE.Mesh(ballGeo, material);
+
+	var pendulumGeo = new THREE.CylinderGeometry(1, 1, 50, 16);
+	ball.updateMatrix();
+	pendulumGeo.merge(ball.geometry, ball.matrix);
+
+	var pendulum = new THREE.Mesh(pendulumGeo, material);
+	scene.add(pendulum);
 
 }
 			
@@ -177,7 +190,7 @@ function init() {
 }*/
 
 function exportBinary() {
-	var result = exporter.parse( cube, { binary: true } );
+	var result = exporter.parse( pendulum, { binary: true } );
 	saveArrayBuffer( result, 'test1.stl' );
 }
 
