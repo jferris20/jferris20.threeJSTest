@@ -41,15 +41,15 @@ function init() {
 
 	// Create a camera
 	camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1000 );
-	camera.position.set( 20, 20, 20 );
-	camera.lookAt( 0, 18, 0 );
+	camera.position.set( 30, 40, 30 );
+	camera.lookAt( 0, 30, 0 );
 	
 	// Controls
 	controls = new OrbitControls( camera, renderer.domElement );
 	controls.screenSpacePanning = true;
 	controls.enablePan = false;
-	controls.minDistance = 15;
-	controls.maxDistance = 40;
+	controls.minDistance = 25;
+	controls.maxDistance = 50;
 	controls.target.set( 0, 2, 0 );
 	controls.maxPolarAngle = Math.PI * 0.495; //Hopefully restricts vertical camera rotations. Needs further adjustment
 	
