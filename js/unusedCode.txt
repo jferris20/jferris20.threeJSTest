@@ -1,0 +1,68 @@
+	
+	// In the animate function
+	cube.rotation.x = guiControls.rotationX * (Math.PI / 180);
+	cube.rotation.y = guiControls.rotationY * (Math.PI / 180);
+	cube.rotation.z = guiControls.rotationZ * (Math.PI / 180);
+	
+	// Load a texture for the cube
+	var texture = new THREE.TextureLoader().load( 'textures/crate.gif' );
+
+	// Create a cube
+	var geometry = new THREE.BoxGeometry();
+	//var geometry = new THREE.BoxBufferGeometry( 200, 200, 200 );
+	var material = new THREE.MeshBasicMaterial( { map: texture } );
+	cube = new THREE.Mesh( geometry, material );
+	cube.position.set(0, 1, 0);
+	scene.add( cube );
+	
+	
+	// Attempt to merge different meshes/geometries
+	/*var ballGeo = new THREE.SphereGeometry(10,35,35);
+	var material = new THREE.MeshPhongMaterial({color: 0xF7FE2E}); 
+	var ball = new THREE.Mesh(ballGeo, material);
+
+	var pendulumGeo = new THREE.CylinderGeometry(1, 1, 50, 16);
+	ball.updateMatrix();
+	pendulumGeo.merge(ball.geometry, ball.matrix);
+
+	pendulum = new THREE.Mesh(pendulumGeo, material);
+	scene.add(pendulum);*/ //It worked
+	
+	
+				
+// function onWindowResize() {}			
+/*function onWindowResize() {
+
+	renderer.setSize( window.innerWidth, window.innerHeight );
+
+	camera.aspect = window.innerWidth / window.innerHeight;
+	camera.updateProjectionMatrix();
+
+	//render();
+}*/
+
+var guiControls, datGUI;
+import { GUI } from '../gui/dat.gui.module.js';
+
+guiControls = new function() {
+		this.rotationX = 0.00;
+		this.rotationY = 0.00;
+		this.rotationZ = 0.00;
+	}
+	
+	datGUI = new GUI();
+	datGUI.add(guiControls, 'rotationX', 0, 360);
+	datGUI.add(guiControls, 'rotationY', 0, 360);
+	datGUI.add(guiControls, 'rotationZ', 0, 360);
+	
+	//hemiLight.color.setHSL( 0.6, 1, 0.6 );
+	//hemiLight.groundColor.setHSL( 0.095, 1, 0.75 );
+	
+	
+	
+	
+	
+	
+	
+	
+	
