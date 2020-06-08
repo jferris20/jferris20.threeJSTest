@@ -20,6 +20,8 @@ animate();
 
 function init() {
 
+	console.log("Version 2")
+
 	// Container for UI 
 	container = document.getElementById( 'container' );
 	
@@ -85,7 +87,7 @@ function init() {
 	loader.load( 'gltfModels/GhostPirate.glb', function ( gltf ) {
 
 		model = gltf.scene;
-		model.material.shading = THREE.SmoothShading;
+		model.material.flatShading = false;
 		
 		scene.add( model );
 
