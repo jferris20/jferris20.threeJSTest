@@ -31,7 +31,7 @@ function init() {
 	// Create the scene
 	scene = new THREE.Scene();
 	scene.background = new THREE.Color( 0xa0a0a0 );
-	scene.fog = new THREE.Fog( 0xa0a0a0, 10, 50 );
+	scene.fog = new THREE.Fog( 0xa0a0a0, 40, 60 );
 
 	// Create the renderer
 	renderer = new THREE.WebGLRenderer();
@@ -47,7 +47,7 @@ function init() {
 	// Controls
 	controls = new OrbitControls( camera, renderer.domElement );
 	controls.screenSpacePanning = true;
-	controls.enablePan = false;
+	controls.enablePan = true;
 	controls.minDistance = 25;
 	controls.maxDistance = 50;
 	controls.target.set( 0, 2, 0 );
@@ -85,6 +85,8 @@ function init() {
 	loader.load( 'gltfModels/GhostPirate.glb', function ( gltf ) {
 
 		model = gltf.scene;
+		model.material.shading = THREE.SmoothShading;
+		
 		scene.add( model );
 
 		model.traverse( function ( object ) {
