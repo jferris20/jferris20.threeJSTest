@@ -20,7 +20,7 @@ animate();
 
 function init() {
 
-	console.log("Version 2")
+	console.log("Version 3")
 
 	// Container for UI 
 	container = document.getElementById( 'container' );
@@ -84,17 +84,80 @@ function init() {
 	
 	// Import object using GLFT loader
 	var loader = new GLTFLoader();
-	loader.load( 'gltfModels/GhostPirate.glb', function ( gltf ) {
+	/*loader.load( 'models/gltf/GhostPirate.glb', function ( gltf ) {
 
 		model = gltf.scene;
-		model.material.flatShading = false;
+		//model.material.flatShading = false;
 		
 		scene.add( model );
 
 		model.traverse( function ( object ) {
 			if ( object.isMesh ) object.castShadow = true;
 		} );
+	} ); */
+	
+	loader.load( 'models/gltf/Xbot.glb', function ( gltf ) {
+
+		model = gltf.scene;
+		scene.add( model );
+
+		model.traverse( function ( object ) {
+
+			if ( object.isMesh ) object.castShadow = true;
+
+		} );
+
+		skeleton = new THREE.SkeletonHelper( model );
+		skeleton.visible = false;
+		scene.add( skeleton );
+
+		var animations = gltf.animations;
+		mixer = new THREE.AnimationMixer( model );
+
+		numAnimations = animations.length;
+
+		for ( let i = 0; i !== numAnimations; ++ i ) {
+
+			let clip = animations[ i ];
+			const name = clip.name;
+
+			if ( baseActions[ name ] ) {
+
+				const action = mixer.clipAction( clip );
+				activateAction( action );
+				baseActions[ name ].action = action;
+				allActions.push( action );
+
+			} else if ( additiveActions[ name ] ) {
+
+				// Make the clip additive and remove the reference frame
+
+				THREE.AnimationUtils.makeClipAdditive( clip );
+
+				if ( clip.name.endsWith( '_pose' ) ) {
+
+					clip = THREE.AnimationUtils.subclip( clip, clip.name, 2, 3, 30 );
+
+				}
+
+				const action = mixer.clipAction( clip );
+				activateAction( action );
+				additiveActions[ name ].action = action;
+				allActions.push( action );
+
+			}
+
+		}
+
+		createPanel();
+
+		animate();
+
 	} );
+	
+	
+	
+	
 
 	// Add Lines for references
 	// Create a function to do this
