@@ -1,8 +1,8 @@
 // Import stuff
 import * as THREE from '../js/three.module.js';
 import { OrbitControls } from '../controls/OrbitControls.js';
-import Stats from './jsm/libs/stats.module.js';
-import { GUI } from './jsm/libs/dat.gui.module.js';
+import Stats from '../libs/stats.module.js';
+import { GUI } from '../gui/dat.gui.module.js';
 import { GLTFLoader } from '../loaders/GLTFLoader.js';
 import { STLExporter } from '../exporters/STLExporter.js';
 
