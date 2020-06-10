@@ -20,7 +20,7 @@ animate();
 
 function init() {
 
-	console.log("Version 3")
+	console.log("Version 4")
 
 	// Container for UI 
 	container = document.getElementById( 'container' );
@@ -96,7 +96,7 @@ function init() {
 		} );
 	} ); */
 	
-	loader.load( 'models/gltf/Xbot.glb', function ( gltf ) {
+	loader.load( 'models/gltf/Xbot32mm.glb', function ( gltf ) {
 
 		model = gltf.scene;
 		scene.add( model );
