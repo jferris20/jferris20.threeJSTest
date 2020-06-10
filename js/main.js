@@ -1,18 +1,39 @@
 // Import stuff
 import * as THREE from '../js/three.module.js';
 import { OrbitControls } from '../controls/OrbitControls.js';
+import Stats from './jsm/libs/stats.module.js';
+import { GUI } from './jsm/libs/dat.gui.module.js';
 import { GLTFLoader } from '../loaders/GLTFLoader.js';
 import { STLExporter } from '../exporters/STLExporter.js';
 
 
 // Set up variables
-var camera, controls, scene, renderer, container;
+var camera, controls, scene, renderer, container, stats;
 var hemiLight, dirLight;
 var exporter;
-var model;
+var model, skeleton, mixer, clock;
 var pendulum;
 
+var crossFadeControls = [];
+
 var ground, grid;
+
+var currentBaseAction = 'idle';
+
+const allActions = [];
+const baseActions = {
+	idle: { weight: 1 },
+	walk: { weight: 0 },
+	run: { weight: 0 }
+};
+const additiveActions = {
+	sneak_pose: { weight: 0 },
+	sad_pose: { weight: 0 },
+	agree: { weight: 0 },
+	headShake: { weight: 0 }
+};
+var panelSettings, numAnimations;
+
 
 init();
 
@@ -21,6 +42,7 @@ animate();
 function init() {
 
 	console.log("Version 4")
+	clock = new THREE.Clock();
 
 	// Container for UI 
 	container = document.getElementById( 'container' );
@@ -43,7 +65,7 @@ function init() {
 
 	// Create a camera
 	camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1000 );
-	camera.position.set( 30, 40, 30 );
+	camera.position.set( 25, 35, 25 );
 	camera.lookAt( 0, 30, 0 );
 	
 	// Controls
@@ -81,6 +103,12 @@ function init() {
 
 	dirLight.shadow.camera.far = 3500;
 	dirLight.shadow.bias = - 0.0001;
+	
+	// Not sure 100% what this does
+	stats = new Stats();
+	container.appendChild( stats.dom );
+	
+	
 	
 	// Import object using GLFT loader
 	var loader = new GLTFLoader();
@@ -150,38 +178,13 @@ function init() {
 		}
 
 		createPanel();
-
-		animate();
-
 	} );
 	
 	
 	
 	
 
-	// Add Lines for references
-	// Create a function to do this
-	var material = new THREE.LineBasicMaterial( { color: 0x0000ff } ); // Blue
-	var points = [];
-	points.push( new THREE.Vector3( 0, 0, 0 ) );
-	points.push( new THREE.Vector3( 0, 10, 0 ) ); // Y Axis
-	var geometry = new THREE.BufferGeometry().setFromPoints( points );
-	var line = new THREE.Line( geometry, material );
-	scene.add( line );
-
-	material = new THREE.LineBasicMaterial( { color: 0x00ff00 } ); // Green
-	points.pop();
-	points.push( new THREE.Vector3( 0, 0, 10 ) ); // Z Axis
-	geometry = new THREE.BufferGeometry().setFromPoints( points );
-	line = new THREE.Line( geometry, material );
-	scene.add( line );
 	
-	material = new THREE.LineBasicMaterial( { color: 0xff0000 } ); // Red
-	points.pop();
-	points.push( new THREE.Vector3( 10, 0, 0 ) ); // X Axis
-	geometry = new THREE.BufferGeometry().setFromPoints( points );
-	line = new THREE.Line( geometry, material );
-	scene.add( line );
 
 	createGround();
 }
@@ -211,6 +214,8 @@ function animate() {
 	
 
 	requestAnimationFrame( animate );
+	
+	stats.update();
 	
 	renderer.render( scene, camera );
 }
