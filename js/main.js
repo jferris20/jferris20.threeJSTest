@@ -41,7 +41,7 @@ animate();
 
 function init() {
 
-	console.log("Version 4")
+	console.log("Version 5")
 	clock = new THREE.Clock();
 
 	// Container for UI 
@@ -159,7 +159,6 @@ function init() {
 			} else if ( additiveActions[ name ] ) {
 
 				// Make the clip additive and remove the reference frame
-
 				THREE.AnimationUtils.makeClipAdditive( clip );
 
 				if ( clip.name.endsWith( '_pose' ) ) {
