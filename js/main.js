@@ -37,11 +37,9 @@ var panelSettings, numAnimations;
 
 init();
 
-animate();
-
 function init() {
 
-	console.log("Version 6")
+	console.log("Version 7")
 	clock = new THREE.Clock();
 
 	// Container for UI 
@@ -136,7 +134,7 @@ function init() {
 		} );
 
 		skeleton = new THREE.SkeletonHelper( model );
-		skeleton.visible = false;
+		skeleton.visible = true;
 		scene.add( skeleton );
 
 		var animations = gltf.animations;
@@ -179,6 +177,9 @@ function init() {
 	createPanel();
 
 	createGround();
+	
+	animate();
+	
 }
 
 
@@ -187,9 +188,9 @@ function exportBinary() {
 	saveArrayBuffer( result, 'test2.stl' );
 }
 
-var link = document.createElement( 'a' ); // Not 100% certain what this does
+/*var link = document.createElement( 'a' ); // Not 100% certain what this does
 link.style.display = 'none';
-document.body.appendChild( link );
+document.body.appendChild( link );*/
 
 function save( blob, filename ) {
 	link.href = URL.createObjectURL( blob );
@@ -204,11 +205,27 @@ function saveArrayBuffer( buffer, filename ) {
 // Animation loop
 function animate() {
 	
-
 	requestAnimationFrame( animate );
-	
+
+	for ( let i = 0; i !== numAnimations; ++ i ) {
+
+		const action = allActions[ i ];
+		const clip = action.getClip();
+		const settings = baseActions[ clip.name ] || additiveActions[ clip.name ];
+		settings.weight = action.getEffectiveWeight();
+
+	}
+
+	// Get the time elapsed since the last frame, used for mixer update
+
+	var mixerUpdateDelta = clock.getDelta();
+
+	// Update the animation mixer, the stats panel, and render this frame
+
+	mixer.update( mixerUpdateDelta );
+
 	stats.update();
-	
+
 	renderer.render( scene, camera );
 }
 
