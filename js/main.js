@@ -41,7 +41,7 @@ animate();
 
 function init() {
 
-	console.log("Version 5")
+	console.log("Version 6")
 	clock = new THREE.Clock();
 
 	// Container for UI 
@@ -171,20 +171,12 @@ function init() {
 				activateAction( action );
 				additiveActions[ name ].action = action;
 				allActions.push( action );
-
 			}
-
 		}
-
-		
-		();
 	} );
 	
-	
-	
-	
 
-	
+	createPanel();
 
 	createGround();
 }
@@ -362,7 +354,86 @@ function setWeight( action, weight ) {
 }
 
 
+function createPanel() {
 
+	var panel = new GUI( { width: 310 } );
+
+	var folder1 = panel.addFolder( 'Base Actions' );
+	var folder2 = panel.addFolder( 'Additive Action Weights' );
+	var folder3 = panel.addFolder( 'General Speed' );
+
+	panelSettings = {
+		'modify time scale': 1.0
+	};
+
+	const baseNames = [ 'None', ...Object.keys( baseActions ) ];
+
+	for ( let i = 0, l = baseNames.length; i !== l; ++ i ) {
+
+		const name = baseNames[ i ];
+		const settings = baseActions[ name ];
+		panelSettings[ name ] = function () {
+
+			const currentSettings = baseActions[ currentBaseAction ];
+			const currentAction = currentSettings ? currentSettings.action : null;
+			const action = settings ? settings.action : null;
+
+			prepareCrossFade( currentAction, action, 0.35 );
+
+		};
+
+		crossFadeControls.push( folder1.add( panelSettings, name ) );
+
+	}
+
+	for ( const name of Object.keys( additiveActions ) ) {
+
+		const settings = additiveActions[ name ];
+
+		panelSettings[ name ] = settings.weight;
+		folder2.add( panelSettings, name, 0.0, 1.0, 0.01 ).listen().onChange( function ( weight ) {
+
+			setWeight( settings.action, weight );
+			settings.weight = weight;
+
+		} );
+
+	}
+
+	folder3.add( panelSettings, 'modify time scale', 0.0, 1.5, 0.01 ).onChange( modifyTimeScale );
+
+	folder1.open();
+	folder2.open();
+	folder3.open();
+
+	crossFadeControls.forEach( function ( control ) {
+
+		control.classList1 = control.domElement.parentElement.parentElement.classList;
+		control.classList2 = control.domElement.previousElementSibling.classList;
+
+		control.setInactive = function () {
+
+			control.classList2.add( 'control-inactive' );
+
+		};
+
+		control.setActive = function () {
+
+			control.classList2.remove( 'control-inactive' );
+
+		};
+
+		const settings = baseActions[ control.property ];
+
+		if ( ! settings || ! settings.weight ) {
+
+			control.setInactive();
+
+		}
+
+	} );
+
+}
 
 
 
