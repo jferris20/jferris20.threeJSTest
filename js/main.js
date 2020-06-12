@@ -39,7 +39,7 @@ init();
 
 function init() {
 
-	console.log("Version 8")
+	console.log("Version 9")
 	clock = new THREE.Clock();
 
 	// Container for UI 
@@ -122,7 +122,7 @@ function init() {
 		} );
 	} ); */
 	
-	loader.load( 'models/gltf/XbotEdited.glb', function ( gltf ) {
+	loader.load( 'models/gltf/Xbot.glb', function ( gltf ) {
 
 		model = gltf.scene;
 		scene.add( model );
