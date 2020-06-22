@@ -178,12 +178,19 @@ function animate() {
 
 	stats.update();
 	
-	scene.traverse(function(child)) {
-		child.skeleton.bones[0].rotation.z = guiControls.Bone_0;
-		child.skeleton.bones[1].rotation.z = guiControls.Bone_1;
-		child.skeleton.bones[2].rotation.z = guiControls.Bone_2;
-		child.skeleton.bones[3].rotation.z = guiControls.Bone_3;
-	}
+	scene.traverse(function(child) {
+		if (child instanceof THREE.SKinnedMesh) {
+			//child.rotation.y += 0.01;
+		
+			child.skeleton.bones[0].rotation.z = guiControls.Bone_0;
+			child.skeleton.bones[1].rotation.z = guiControls.Bone_1;
+			child.skeleton.bones[2].rotation.z = guiControls.Bone_2;
+			child.skeleton.bones[3].rotation.z = guiControls.Bone_3;
+		}
+		else if (child instanceof THREE.SkeletonHelper) {
+			child.update();
+		}
+	});
 
 	renderer.render( scene, camera );
 }
