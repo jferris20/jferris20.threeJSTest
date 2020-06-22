@@ -325,16 +325,6 @@ function executeCrossFade( startAction, endAction, duration ) {
 
 }
 
-// This function is needed, since animationAction.crossFadeTo() disables its start action and sets
-// the start action's timeScale to ((start animation's duration) / (end animation's duration))
-
-function  ( action, weight ) {
-
-	action.enabled = true;
-	action.setEffectiveTimeScale( 1 );
-	action.setEffectiveWeight( weight );
-
-}
 
 
 function createPanel() {
