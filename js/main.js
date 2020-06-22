@@ -18,28 +18,14 @@ var crossFadeControls = [];
 
 var ground, grid;
 
-var currentBaseAction = 'idle';
 
-const allActions = [];
-const baseActions = {
-	idle: { weight: 1 },
-	walk: { weight: 0 },
-	run: { weight: 0 }
-};
-const additiveActions = {
-	sneak_pose: { weight: 0 },
-	sad_pose: { weight: 0 },
-	agree: { weight: 0 },
-	headShake: { weight: 0 }
-};
-var panelSettings, numAnimations;
 
 
 init();
 
 function init() {
 
-	console.log("Version 9")
+	console.log("Version 10")
 	clock = new THREE.Clock();
 
 	// Container for UI 
@@ -122,7 +108,7 @@ function init() {
 		} );
 	} ); */
 	
-	loader.load( 'models/gltf/Xbot.glb', function ( gltf ) {
+	loader.load( 'models/gltf/Cube.glb', function ( gltf ) {
 
 		model = gltf.scene;
 		scene.add( model );
@@ -140,39 +126,8 @@ function init() {
 		var animations = gltf.animations;
 		mixer = new THREE.AnimationMixer( model );
 
-		numAnimations = animations.length;
-
-		for ( let i = 0; i !== numAnimations; ++ i ) {
-
-			let clip = animations[ i ];
-			const name = clip.name;
-
-			if ( baseActions[ name ] ) {
-
-				const action = mixer.clipAction( clip );
-				activateAction( action );
-				baseActions[ name ].action = action;
-				allActions.push( action );
-
-			} else if ( additiveActions[ name ] ) {
-
-				// Make the clip additive and remove the reference frame
-				THREE.AnimationUtils.makeClipAdditive( clip );
-
-				if ( clip.name.endsWith( '_pose' ) ) {
-
-					clip = THREE.AnimationUtils.subclip( clip, clip.name, 2, 3, 30 );
-
-				}
-
-				const action = mixer.clipAction( clip );
-				activateAction( action );
-				additiveActions[ name ].action = action;
-				allActions.push( action );
-			}
-		}
+		
 	} );
-	
 
 	createPanel();
 
@@ -188,9 +143,6 @@ function exportBinary() {
 	saveArrayBuffer( result, 'test2.stl' );
 }
 
-/*var link = document.createElement( 'a' ); // Not 100% certain what this does
-link.style.display = 'none';
-document.body.appendChild( link );*/
 
 function save( blob, filename ) {
 	link.href = URL.createObjectURL( blob );
@@ -205,7 +157,7 @@ function saveArrayBuffer( buffer, filename ) {
 // Animation loop
 function animate() {
 	
-	requestAnimationFrame( animate );
+	/*requestAnimationFrame( animate );
 
 	for ( let i = 0; i !== numAnimations; ++ i ) {
 
@@ -214,7 +166,7 @@ function animate() {
 		const settings = baseActions[ clip.name ] || additiveActions[ clip.name ];
 		settings.weight = action.getEffectiveWeight();
 
-	}
+	}*/
 
 	// Get the time elapsed since the last frame, used for mixer update
 
@@ -225,6 +177,13 @@ function animate() {
 	mixer.update( mixerUpdateDelta );
 
 	stats.update();
+	
+	scene.traverse(function(child)) {
+		child.skeleton.bones[0].rotation.z = guiControls.Bone_0;
+		child.skeleton.bones[1].rotation.z = guiControls.Bone_1;
+		child.skeleton.bones[2].rotation.z = guiControls.Bone_2;
+		child.skeleton.bones[3].rotation.z = guiControls.Bone_3;
+	}
 
 	renderer.render( scene, camera );
 }
@@ -362,7 +321,7 @@ function executeCrossFade( startAction, endAction, duration ) {
 // This function is needed, since animationAction.crossFadeTo() disables its start action and sets
 // the start action's timeScale to ((start animation's duration) / (end animation's duration))
 
-function setWeight( action, weight ) {
+function  ( action, weight ) {
 
 	action.enabled = true;
 	action.setEffectiveTimeScale( 1 );
@@ -375,80 +334,15 @@ function createPanel() {
 
 	var panel = new GUI( { width: 310 } );
 
-	var folder1 = panel.addFolder( 'Base Actions' );
-	var folder2 = panel.addFolder( 'Additive Action Weights' );
-	var folder3 = panel.addFolder( 'General Speed' );
+	var controls = panel.addFolder( 'Controls' );
 
-	panelSettings = {
-		'modify time scale': 1.0
-	};
+	controls.add(guiControls, 'Bone_0', -3.14, 3.14);
+	controls.add(guiControls, 'Bone_1', -3.14, 3.14);
+	controls.add(guiControls, 'Bone_2', -3.14, 3.14);
+	controls.add(guiControls, 'Bone_3', -3.14, 3.14);
+	
 
-	const baseNames = [ 'None', ...Object.keys( baseActions ) ];
-
-	for ( let i = 0, l = baseNames.length; i !== l; ++ i ) {
-
-		const name = baseNames[ i ];
-		const settings = baseActions[ name ];
-		panelSettings[ name ] = function () {
-
-			const currentSettings = baseActions[ currentBaseAction ];
-			const currentAction = currentSettings ? currentSettings.action : null;
-			const action = settings ? settings.action : null;
-
-			prepareCrossFade( currentAction, action, 0.35 );
-
-		};
-
-		crossFadeControls.push( folder1.add( panelSettings, name ) );
-
-	}
-
-	for ( const name of Object.keys( additiveActions ) ) {
-
-		const settings = additiveActions[ name ];
-
-		panelSettings[ name ] = settings.weight;
-		folder2.add( panelSettings, name, 0.0, 1.0, 0.01 ).listen().onChange( function ( weight ) {
-
-			setWeight( settings.action, weight );
-			settings.weight = weight;
-
-		} );
-
-	}
-
-	folder3.add( panelSettings, 'modify time scale', 0.0, 1.5, 0.01 ).onChange( modifyTimeScale );
-
-	folder1.open();
-	folder2.open();
-	folder3.open();
-
-	crossFadeControls.forEach( function ( control ) {
-
-		control.classList1 = control.domElement.parentElement.parentElement.classList;
-		control.classList2 = control.domElement.previousElementSibling.classList;
-
-		control.setInactive = function () {
-
-			control.classList2.add( 'control-inactive' );
-
-		};
-
-		control.setActive = function () {
-
-			control.classList2.remove( 'control-inactive' );
-
-		};
-
-		const settings = baseActions[ control.property ];
-
-		if ( ! settings || ! settings.weight ) {
-
-			control.setInactive();
-
-		}
-
-	} );
+	
 
 }
 
