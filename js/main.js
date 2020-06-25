@@ -23,7 +23,7 @@ init();
 
 function init() {
 
-	console.log("Version 11")
+	console.log("Version 12")
 	clock = new THREE.Clock();
 
 	// Container for UI 
@@ -335,10 +335,10 @@ function createPanel() {
 		
 	}
 
-	controls.add(controls, 'Bone_0', -3.14, 3.14);
-	controls.add(guiControls, 'Bone_1', -3.14, 3.14);
-	controls.add(guiControls, 'Bone_2', -3.14, 3.14);
-	controls.add(guiControls, 'Bone_3', -3.14, 3.14);
+	controls.add(settings, 'Bone_0', -3.14, 3.14);
+	controls.add(settings, 'Bone_1', -3.14, 3.14);
+	controls.add(settings, 'Bone_2', -3.14, 3.14);
+	controls.add(settings, 'Bone_3', -3.14, 3.14);
 
 }
 
