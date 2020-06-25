@@ -13,19 +13,17 @@ var hemiLight, dirLight;
 var exporter;
 var model, skeleton, mixer, clock;
 var pendulum;
+var mixerUpdateDelta
 
-var crossFadeControls = [];
 
 var ground, grid;
-
-
 
 
 init();
 
 function init() {
 
-	console.log("Version 10")
+	console.log("Version 11")
 	clock = new THREE.Clock();
 
 	// Container for UI 
@@ -170,7 +168,7 @@ function animate() {
 
 	// Get the time elapsed since the last frame, used for mixer update
 
-	var mixerUpdateDelta = clock.getDelta();
+	mixerUpdateDelta = clock.getDelta();
 
 	// Update the animation mixer, the stats panel, and render this frame
 
@@ -332,16 +330,18 @@ function createPanel() {
 	var panel = new GUI( { width: 310 } );
 
 	var controls = panel.addFolder( 'Controls' );
+	
+	settings = {
+		
+	}
 
-	controls.add(guiControls, 'Bone_0', -3.14, 3.14);
+	controls.add(controls, 'Bone_0', -3.14, 3.14);
 	controls.add(guiControls, 'Bone_1', -3.14, 3.14);
 	controls.add(guiControls, 'Bone_2', -3.14, 3.14);
 	controls.add(guiControls, 'Bone_3', -3.14, 3.14);
-	
-
-	
 
 }
+
 
 
 
