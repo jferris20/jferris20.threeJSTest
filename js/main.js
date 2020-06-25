@@ -324,21 +324,23 @@ function executeCrossFade( startAction, endAction, duration ) {
 }
 
 
+var controls = new function() {
+	this.rotation.z = 0.00;
+}
+
 
 function createPanel() {
 
 	var panel = new GUI( { width: 310 } );
 
-	var controls = panel.addFolder( 'Controls' );
+	var folder = panel.addFolder( 'Controls' );
 	
-	settings = {
-		
-	}
+	
 
-	controls.add(settings, 'Bone_0', -3.14, 3.14);
-	controls.add(settings, 'Bone_1', -3.14, 3.14);
-	controls.add(settings, 'Bone_2', -3.14, 3.14);
-	controls.add(settings, 'Bone_3', -3.14, 3.14);
+	folder.add(settings, 'Bone_0', -3.14, 3.14);
+	folder.add(settings, 'Bone_1', -3.14, 3.14);
+	folder.add(settings, 'Bone_2', -3.14, 3.14);
+	folder.add(settings, 'Bone_3', -3.14, 3.14);
 
 }
 
