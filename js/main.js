@@ -155,16 +155,6 @@ function saveArrayBuffer( buffer, filename ) {
 // Animation loop
 function animate() {
 	
-	/*requestAnimationFrame( animate );
-
-	for ( let i = 0; i !== numAnimations; ++ i ) {
-
-		const action = allActions[ i ];
-		const clip = action.getClip();
-		const settings = baseActions[ clip.name ] || additiveActions[ clip.name ];
-		settings.weight = action.getEffectiveWeight();
-
-	}*/
 
 	// Get the time elapsed since the last frame, used for mixer update
 
@@ -207,17 +197,6 @@ function createGround() {
 	scene.add( grid );
 }
 
-/***********************************************
-* Animation stuff
-***********************************************/
-function activateAction( action ) {
-
-	const clip = action.getClip();
-	const settings = baseActions[ clip.name ] || additiveActions[ clip.name ];
-	setWeight( action, settings.weight );
-	action.play();
-
-}
 
 function modifyTimeScale( speed ) {
 
@@ -225,108 +204,11 @@ function modifyTimeScale( speed ) {
 
 }
 
-function prepareCrossFade( startAction, endAction, duration ) {
-
-	// If the current action is 'idle', execute the crossfade immediately;
-	// else wait until the current action has finished its current loop
-
-	if ( currentBaseAction === 'idle' || ! startAction || ! endAction ) {
-
-		executeCrossFade( startAction, endAction, duration );
-
-	} else {
-
-		synchronizeCrossFade( startAction, endAction, duration );
-
-	}
-
-	// Update control colors
-
-	if ( endAction ) {
-
-		const clip = endAction.getClip();
-		currentBaseAction = clip.name;
-
-	} else {
-
-		currentBaseAction = 'None';
-
-	}
-
-	crossFadeControls.forEach( function ( control ) {
-
-		const name = control.property;
-
-		if ( name === currentBaseAction ) {
-
-			control.setActive();
-
-		} else {
-
-			control.setInactive();
-
-		}
-
-	} );
-
-}
-
-function synchronizeCrossFade( startAction, endAction, duration ) {
-
-	mixer.addEventListener( 'loop', onLoopFinished );
-
-	function onLoopFinished( event ) {
-
-		if ( event.action === startAction ) {
-
-			mixer.removeEventListener( 'loop', onLoopFinished );
-
-			executeCrossFade( startAction, endAction, duration );
-
-		}
-
-	}
-
-}
-
-function executeCrossFade( startAction, endAction, duration ) {
-
-	// Not only the start action, but also the end action must get a weight of 1 before fading
-	// (concerning the start action this is already guaranteed in this place)
-
-	if ( endAction ) {
-
-		setWeight( endAction, 1 );
-		endAction.time = 0;
-
-		if ( startAction ) {
-
-			// Crossfade with warping
-
-			startAction.crossFadeTo( endAction, duration, true );
-
-		} else {
-
-			// Fade in
-
-			endAction.fadeIn( duration );
-
-		}
-
-	} else {
-
-		// Fade out
-
-		startAction.fadeOut( duration );
-
-	}
-
-}
 
 
-var controls = new function() {
+/*var controls = new function() {
 	this.rotation.z = 0.00;
-}
+}*/
 
 
 function createPanel() {
@@ -337,10 +219,10 @@ function createPanel() {
 	
 	
 
-	folder.add(settings, 'Bone_0', -3.14, 3.14);
+	/*folder.add(settings, 'Bone_0', -3.14, 3.14);
 	folder.add(settings, 'Bone_1', -3.14, 3.14);
 	folder.add(settings, 'Bone_2', -3.14, 3.14);
-	folder.add(settings, 'Bone_3', -3.14, 3.14);
+	folder.add(settings, 'Bone_3', -3.14, 3.14);*/
 
 }
 
